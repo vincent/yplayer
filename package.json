@@ -1,0 +1,28 @@
+{
+  "name": "cli-grooveshark",
+  "version": "0.0.1",
+  "description": "A CLI for listening to Grooveshark songs.",
+  "main": "index.js",
+  "dependencies": {
+    "curl": "~0.1.4",
+    "grooveshark-streaming": "~0.0.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "cli",
+    "grooveshark",
+    "music",
+    "listening",
+    "radio",
+    "download"
+  ],
+  "author": "Bram van der Veen",
+  "license": "MIT"
+}
