@@ -1,6 +1,17 @@
 ## grooveshark-cli
 
-Please excuse the current state of the code, the indentation and such.
-I wrote this on a 320x320 tty, with little vim experience.
+I made this initially to listen to music on tty based OSs, now it's one of my favorite ways to listen to music (in a terminal).
 
-Thanks for checking out the repo though!
+##Install :
+```
+npm install grooveshark-cli -g
+```
+
+##Usage :
+```
+grooveshark-cli v0.0.1b, by: Bram "#96AA48" van der Veen
+Usage : gsm [options] <-s song>
+	-s <song>, --song <song>	Song to listen to
+	[-o], [--offline]		Offline mode/listen to cached songs
+	[-h], [--help]			Display helpful information (this stuff)
+

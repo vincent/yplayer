@@ -1,6 +1,6 @@
 {
-  "name": "grooveshark-cli",
-  "version": "0.0.1",
+  "name": "gplayer",
+  "version": "1.0.0",
   "description": "A CLI for listening to Grooveshark songs.",
   "main": "index.js",
   "dependencies": {
