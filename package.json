@@ -4,6 +4,7 @@
   "description": "A CLI for listening to Grooveshark songs.",
   "main": "index.js",
   "dependencies": {
+    "dev-null-stream": "0.0.1",
     "grooveshark-streaming": "0.0.8"
   },
   "devDependencies": {},
