@@ -10,6 +10,7 @@ var readline = require("readline").createInterface({input : process.stdin, outpu
 
 var args = []; for (i=0;i<process.argv.join(" ").split(" -").length;i++) {if (i!=0) args[i-1] = process.argv.join(" ").split(" -")[i]};
 if (args.length == 0) help();
+if (!fs.existsSync("/home/" + process.env["USER"] + "/Music")) {fs.mkdirSync("/home/" + process.env["USER"] + "/Music", 0775)}
 _.each(args, function (item) {
 	if (item == "-help" || item == "h") {
 		help();
@@ -23,7 +24,7 @@ _.each(args, function (item) {
 });
 
 function help() {
-	process.stdout.write("gplayer v1.0.5, by: Bram \"#96AA48\" van der Veen\n\n");
+	process.stdout.write("gplayer v1.0.6, by: Bram \"#96AA48\" van der Veen\n\n");
 	process.stdout.write("Usage : gsm [options] <-s song>\n");
 	var options = [
 		["-s <song>, --song <song>", "Song to listen to"],
@@ -35,7 +36,7 @@ function help() {
 }
 
 function offline() {
-	var files = []; for (i=0;i<fs.readdirSync(__dirname + "/music").length;i++) {if (i!=0) files[i-1] = fs.readdirSync(__dirname + "/music")[i];};
+	var files = []; for (i=0;i<fs.readdirSync("/home/" + process.env["USER" + "/Music"]).length;i++) {if (i!=0) files[i-1] = fs.readdirSync("/home/" + process.env["USER" + "/Music"])[i];};
 	for (i=0;i<files.length;i++) {process.stdout.write("[".cyan + i + "] ".cyan + (files[i].split(".mp3")[0]).bold + "\n"); if (i==files.length - 1) process.stdout.write("\n");};
 	readline.question("What song do you want to play? #", function (input) {if (parseInt(input) != NaN) play(files[input]);});
 }
@@ -47,7 +48,7 @@ function lookup(query) {
 			b = JSON.parse(b);for (i = 0; i < b.length; i++) {process.stdout.write("[".cyan + i + "] ".cyan + (b[i].SongName + " - " + b[i].ArtistName).bold + "\n"); if (i==b.length-1) process.stdout.write("\n");}
 			readline.question("What song do you want to play? #", function (input) {if (parseInt(input) != NaN) {
 				GS.Grooveshark.getStreamingUrl(b[input].SongID, function (err, streamUrl) { 
-					var filename = __dirname + "/music/" + b[input].SongName + " - " + b[input].ArtistName + ".mp3";
+					var filename = "/home/" + process.env["USER"] + "/Music/" + b[input].SongName + " - " + b[input].ArtistName + ".mp3";
 					if (!fs.existsSync(filename)) http.get(streamUrl, function(res) {res.on("data", function (data){if (fs.existsSync(filename)) {fs.appendFileSync(filename, data);}else {fs.writeFileSync(filename, data);}});res.on("end", function () {play(filename.split("/")[filename.split("/").length - 1])});});
 					else play(filename);
 				});
@@ -57,7 +58,7 @@ function lookup(query) {
 }
 
 function play(file) {
-	var player = mplayer("mplayer", ["-ao","alsa", __dirname + "/music/" + file]); var isfiltered = false;	
+	var player = mplayer("mplayer", ["-ao","alsa", "/home/" + process.env["USER"] + "/Music/" + file]); var isfiltered = false;	
 	player.stdout.on("data", function (data) { if (data.toString().substr(0,2) == "A:" && !isfiltered) { player.stdout.pipe(process.stdout); isfiltered = true;}});
 	process.stdin.pipe(player.stdin);	
 	player.on("error", function (data) {process.stdout.write("There was an error playing your song, maybe you need to install mplayer?\n");process.exit(0);});
