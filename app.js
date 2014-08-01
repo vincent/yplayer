@@ -8,23 +8,16 @@ var http = require("http");
 var mplayer = require("child_process").spawn;
 var readline = require("readline").createInterface({input : process.stdin, output : process.stdout});
 
-var args = []; for (i=0;i<process.argv.join(" ").split(" -").length;i++) {if (i!=0) args[i-1] = process.argv.join(" ").split(" -")[i]};
-if (args.length == 0) help();
+var args = []; for (i=0;i<process.argv.join(" ").split(" -").length;i++) {if (i!=0) args[i-1] = process.argv.join(" ").split(" -")[i]}; if (args.length == 0) help();
 if (!fs.existsSync("/home/" + process.env["USER"] + "/Music")) {fs.mkdirSync("/home/" + process.env["USER"] + "/Music", 0775)}
 _.each(args, function (item) {
-	if (item == "-help" || item == "h") {
-		help();
-	}
-	else if (item == "o" || item == "-offline") {
-		return offline(); process.exit(0);
-	}
-	else {
-		return lookup(item.substr(2,item.length)); process.exit(0);
-	}
+	if (item == "-help" || item == "h") { help();}
+	else if (item == "o" || item == "-offline") {return offline(); process.exit(0);}
+	else {return lookup(item.substr(2,item.length)); process.exit(0);}
 });
 
 function help() {
-	process.stdout.write("gplayer v1.0.6, by: Bram \"#96AA48\" van der Veen\n\n");
+	process.stdout.write("gplayer v1.0.7, by: Bram \"#96AA48\" van der Veen\n\n");
 	process.stdout.write("Usage : gsm [options] <-s song>\n");
 	var options = [
 		["-s <song>, --song <song>", "Song to listen to"],
@@ -36,7 +29,7 @@ function help() {
 }
 
 function offline() {
-	var files = []; for (i=0;i<fs.readdirSync("/home/" + process.env["USER" + "/Music"]).length;i++) {if (i!=0) files[i-1] = fs.readdirSync("/home/" + process.env["USER" + "/Music"])[i];};
+	var files = []; for (i=0;i<fs.readdirSync("/home/" + process.env["USER"] + "/Music").length;i++) {files[i] = fs.readdirSync("/home/" + process.env["USER"] + "/Music")[i];};
 	for (i=0;i<files.length;i++) {process.stdout.write("[".cyan + i + "] ".cyan + (files[i].split(".mp3")[0]).bold + "\n"); if (i==files.length - 1) process.stdout.write("\n");};
 	readline.question("What song do you want to play? #", function (input) {if (parseInt(input) != NaN) play(files[input]);});
 }
