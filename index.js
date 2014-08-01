@@ -3,7 +3,7 @@ var http = require('http');
 var fs = require('fs');
 var mplayer = require('child_process').spawn;
 var readline = require('readline');
-var nullstream = require('dev-null-stream');
+var NullStream = require('dev-null-stream');
 
 var input = readline.createInterface({input:process.stdin, output:process.stdout});
 
@@ -12,8 +12,6 @@ input.question('What song are you looking for?\n', function (answer) {
 	var query = answer;
 	var nresults = 20;
 
-	//console.log(query);
-
 	http.get('http://tinysong.com/s/' + query + '?format=json&limit=' + nresults + '&key=0131065fac026c65c87e3658dfa66b88', function (res) {
 		var body = '';
 		res.on('data', function (data) {
@@ -21,7 +19,6 @@ input.question('What song are you looking for?\n', function (answer) {
 		});	
 		res.on('end', function () {
 			show(body);
-
 		});
 
 	});
@@ -47,29 +44,37 @@ function show(data) {
 function download (songInfo) {
 
 	GS.Grooveshark.getStreamingUrl(songInfo.SongID, function (err, streamUrl) { 
-		var filename = __dirname + '/' + songInfo.SongName + '.mp3';
-		http.get(streamUrl, function(res) {
-			res.on('data', function (data){
-				if (fs.existsSync(filename)) {
-				fs.appendFileSync(filename, data);
-				}
-				else {
-				fs.writeFileSync(filename, data);
-				}
-			});
-
-			res.on('end', function () {
-				var player = mplayer('mplayer', ['-ao','alsa', filename]);
-				player.on('error', function (data) {
-					console.log(data);
+		var filename = __dirname + '/music/' + songInfo.SongName + ' - ' + songInfo.ArtistName + '.mp3';
+		if (!fs.existsSync(filename)) {
+			http.get(streamUrl, function(res) {
+				res.on('data', function (data){
+					if (fs.existsSync(filename)) {
+					fs.appendFileSync(filename, data);
+					}
+					else {
+					fs.writeFileSync(filename, data);
+					}
 				});
 
-				player.stdout.pipe(new nullstream());
-				process.stdin.pipe(player.stdin);
-			});
+				res.on('end', function () {
+					play(filename)
+				});
 
-		});	
-	
+			});	
+		}
+		else {
+			play(filename);
+		}
 	});
+}
+
+function play (filename) {
+	var player = mplayer('mplayer', ['-ao','alsa', filename]);
+	player.on('error', function (data) {
+		console.log(data);
+	});
+
+	player.stdout.pipe(new NullStream());
+	process.stdin.pipe(player.stdin);
 }
 
