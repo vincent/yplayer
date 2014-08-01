@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var color = require("colors");
 var GS = require("grooveshark-streaming");
 var _ = require("underscore");
