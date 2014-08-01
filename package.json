@@ -1,19 +1,20 @@
 {
-  "name": "cli-grooveshark",
+  "name": "grooveshark-cli",
   "version": "0.0.1",
   "description": "A CLI for listening to Grooveshark songs.",
   "main": "index.js",
   "dependencies": {
-    "dev-null-stream": "0.0.1",
-    "grooveshark-streaming": "0.0.8"
+    "colors": "^0.6.2",
+    "grooveshark-streaming": "0.0.8",
+    "underscore": "^1.6.0"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node index.js"
+    "test": "node app.js"
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/96AA48/grooveshark-cli.git"
   },
   "keywords": [
     "cli",
