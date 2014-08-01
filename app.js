@@ -9,17 +9,10 @@ var mplayer = require("child_process").spawn;
 var readline = require("readline").createInterface({input : process.stdin, output : process.stdout});
 
 var args = []; for (i=0;i<process.argv.join(" ").split(" -").length;i++) {if (i!=0) args[i-1] = process.argv.join(" ").split(" -")[i]};
-_.each(args,function (item) {
+if (args.length == 0) help();
+_.each(args, function (item) {
 	if (item == "-help" || item == "h") {
-		process.stdout.write("grooveshark-cli v0.0.1b, by: Bram \"#96AA48\" van der Veen\n");
-		process.stdout.write("Usage : gsm [options] <-s song>\n");
-		var options = [
-			["-s <song>, --song <song>", "Song to listen to"],
-			["[-o], [--offline]", "\tOffline mode/listen to cached songs"],
-			["[-h], [--help]", "\t\tDisplay helpful information (this stuff)"]
-		];
-		for (i=0;i<options.length;i++) {process.stdout.write("\t" + options[i][0] + "\t" + options[i][1] + "\n")};
-		process.exit(0); return;
+		help();
 	}
 	else if (item == "o" || item == "-offline") {
 		return offline(); process.exit(0);
@@ -28,6 +21,18 @@ _.each(args,function (item) {
 		return lookup(item.substr(2,item.length)); process.exit(0);
 	}
 });
+
+function help() {
+	process.stdout.write("gplayer v1.0.5, by: Bram \"#96AA48\" van der Veen\n\n");
+	process.stdout.write("Usage : gsm [options] <-s song>\n");
+	var options = [
+		["-s <song>, --song <song>", "Song to listen to"],
+		["[-o], [--offline]", "\tOffline mode/listen to cached songs"],
+		["[-h], [--help]", "\t\tDisplay helpful information (this stuff)"]
+	];
+	for (i=0;i<options.length;i++) {process.stdout.write("\t" + options[i][0] + "\t" + options[i][1] + "\n")};
+	process.exit(0);
+}
 
 function offline() {
 	var files = []; for (i=0;i<fs.readdirSync(__dirname + "/music").length;i++) {if (i!=0) files[i-1] = fs.readdirSync(__dirname + "/music")[i];};
