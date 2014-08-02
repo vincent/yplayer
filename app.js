@@ -17,8 +17,8 @@ _.each(args, function (item) {
 });
 
 function help() {
-	process.stdout.write("gplayer v1.0.8, by: Bram \"#96AA48\" van der Veen\n\n");
-	process.stdout.write("Usage : gsm [options] <-s song>\n");
+	process.stdout.write("gplayer v1.0.9, by: Bram \"#96AA48\" van der Veen\n\n");
+	process.stdout.write("Usage : gplayer [options] <-s song>\n");
 	var options = [
 		["-s <song>, --song <song>", "Song to listen to"],
 		["[-o], [--offline]", "\tOffline mode/listen to cached songs"],

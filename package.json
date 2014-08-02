@@ -1,6 +1,6 @@
 {
   "name": "gplayer",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "A CLI for listening to Grooveshark songs.",
   "main": "index.js",
   "dependencies": {
@@ -13,7 +13,8 @@
     "test": "node app.js"
   },
   "bin" : {
-    "gsm": "app.js"
+    "gsm": "app.js",
+    "gplayer" : "app.js"
   },
   "repository": {
     "type": "git",

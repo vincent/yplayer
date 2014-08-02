@@ -10,8 +10,8 @@ npm install gplayer -g
 
 ##Usage :
 ```
-gplayer v1.0.8, by: Bram "#96AA48" van der Veen
-Usage : gsm [options] <-s song>
+gplayer v1.0.9, by: Bram "#96AA48" van der Veen
+Usage : gplayer [options] <-s song>
 	-s <song>, --song <song>	Song to listen to
 	[-o], [--offline]		Offline mode/listen to cached songs
 	[-h], [--help]			Display helpful information (this stuff)
