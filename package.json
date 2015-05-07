@@ -1,7 +1,7 @@
 {
   "name": "gplayer",
-  "version": "1.0.9",
-  "description": "A CLI for listening to Grooveshark songs.",
+  "version": "1.1.0",
+  "description": "Deprecated since the closure of Grooveshark",
   "main": "index.js",
   "dependencies": {
     "colors": "^0.6.2",
