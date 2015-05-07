@@ -1,3 +1,7 @@
+
+#Package is deprecated since the close of Grooveshark.
+
+
 ## gplayer
 
 I made this initially to listen to music on tty based OSs, now it's one of my favorite ways to listen to music (in a terminal).
