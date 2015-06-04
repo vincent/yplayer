@@ -1,34 +1,36 @@
 {
-  "name": "gplayer",
-  "version": "1.1.0",
-  "description": "Deprecated since the closure of Grooveshark",
-  "main": "index.js",
+  "name": "yplayer",
+  "version": "0.0.1",
+  "description": "A CLI music player using youtube as a source",
+  "main": "app.js",
   "dependencies": {
     "colors": "^0.6.2",
-    "grooveshark-streaming": "0.0.8",
-    "underscore": "^1.6.0"
+    "underscore": "^1.6.0",
+    "youtube-dl": "^1.10.5",
+    "youtube-search": "^1.0.2"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node app.js",
     "start": "node app.js"
   },
-  "bin" : {
-    "gsm": "app.js",
-    "gplayer" : "app.js"
+  "bin": {
+    "ysm": "app.js",
+    "yplayer": "app.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/96AA48/gplayer.git"
+    "url": "https://github.com/96AA48/yplayer.git"
   },
-  "preferGlobal" : true,
+  "preferGlobal": true,
   "keywords": [
     "cli",
-    "grooveshark",
+    "youtube",
     "music",
     "listening",
     "radio",
-    "download"
+    "download",
+    "convert",
+    "tunes"
   ],
   "author": "Bram van der Veen",
   "license": "MIT"
