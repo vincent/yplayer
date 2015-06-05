@@ -18,7 +18,7 @@ _.each(args, function (item) {
 });
 
 function help() {
-	process.stdout.write('yplayer v0.0.1, by: Bram \"#96AA48\" van der Veen\n\n');
+	process.stdout.write('yplayer v0.0.2, by: Bram \"#96AA48\" van der Veen\n\n');
 	process.stdout.write('Usage : yplayer [options] <-s song>\n');
 	var options = [
 		['-s <song>, --song <song>', 'Song to listen to'],
@@ -36,41 +36,60 @@ function offline() {
 }
 
 function lookup(query) {
-	search(query, {key : fs.readFileSync('apikey').toString()}, function (err, results) {
-		if (err) console.warn(err);
-		for (i = 0; i < results.length; i++) {
-			process.stdout.write('['.cyan + i + '] '.cyan + (results[i].title).bold + '\n');
-		}
+	checkApi(function (api) {
+		search(query, {key : api}, function (err, results) {
+			if (err) console.warn(err);
+			for (i = 0; i < results.length; i++) {
+				process.stdout.write('['.cyan + i + '] '.cyan + (results[i].title).bold + '\n');
+			}
 
-		readline.question('What song do you want to play? #', function (input) {
-			if (parseInt(input) != NaN) {
-				var filename = '/home/' + process.env['USER'] + '/Music/' + results[input].title + '.mp3';
-				if (!fs.existsSync(filename)) {
-					dl.exec(results[input].link, ['-x', '--audio-format', 'mp3', '-o', filename], {}, function (err, output) {
-						if (err) process.stderr.write(err);
-						play(filename);
-					});
+			readline.question('What song do you want to play? #', function (input) {
+				if (parseInt(input) != NaN) {
+					if (!fs.existsSync(getLocation('download', results[input].title))) {
+						dl.exec(results[input].link, ['-x', '--audio-format', 'mp3', '-o', getLocation('download', results[input].title)], {}, function (err, output) {
+							if (err) process.stderr.write(err);
+							play(getLocation('download', results[input].title));
+						});
+					}
+					else {
+						play(getLocation('download', results[input].title));
+					}
 				}
 				else {
-					play(filename);
+					process.stdout.write('You didn\'t give me a number, exiting.');
 				}
-			}
-			else {
-				process.stdout.write('You didn\'t give me a number, exiting.');
-			}
+			});
 		});
-	});
-	// http.get(link(query), function (res) {
-	// 	var b = '; res.on('data', function (data) {b+=data});
-	// 	res.on('end', function () {
-	// 		b = JSON.parse(b);for (i = 0; i < b.length; i++) {process.stdout.write('['.cyan + i + '] '.cyan + (b[i].SongName + ' - ' + b[i].ArtistName).bold + '\n'); if (i==b.length-1) process.stdout.write('\n');}
-	// 			GS.Grooveshark.getStreamingUrl(b[input].SongID, function (err, streamUrl) {
-	// 				var filename = '/home/' + process.env['USER'] + '/Music/' + b[input].SongName + ' - ' + b[input].ArtistName + '.mp3';
-	// 				if (!fs.existsSync(filename)) http.get(streamUrl, function(res) {res.on('data', function (data){if (fs.existsSync(filename)) {fs.appendFileSync(filename, data);}else {fs.writeFileSync(filename, data);}});res.on('end', function () {play(filename.split('/')[filename.split('/').length - 1])});});
-	// 				else play(filename);
-	// 			});
-	// 	});
-	// });
+	})
+}
+
+function checkApi(callback) {
+	if (!fs.existsSync(getLocation('api'))) {
+		readline.question('Enter your Youtube Data API key :', function (input) {
+			var settings = {
+				'apikey': input
+			}
+			process.stdout.write('Added Youtube Data API key.\n'.green);
+			fs.writeFileSync(getLocation('api'), JSON.stringify(settings));
+			callback(settings.apikey);
+		});
+		process.stdout.write('\n');
+	}
+	else {
+		callback(JSON.parse(fs.readFileSync(getLocation('api'))).apikey)
+	}
+}
+
+function getLocation(type, data) {
+	if (type == 'download') {
+		return '/home/' + process.env['USER'] + '/Music/' + data + '.mp3';
+	}
+	else if (type == 'api') {
+		return '/home/' + process.env['USER'] + '/.yplayerrc';
+	}
+	else {
+		process.stdout.write('You didn\'t specify the ')
+	}
 }
 
 function play(file) {
