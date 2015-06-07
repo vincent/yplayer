@@ -40,7 +40,9 @@ function lookup(query) {
 		search(query, {key : api}, function (err, results) {
 			if (err) console.warn(err);
 			for (i = 0; i < results.length; i++) {
-				process.stdout.write('['.cyan + i + '] '.cyan + (results[i].title).bold + '\n');
+				if (results[i].kind != 'youtube#channel' && results[i].kind != 'youtube#playlist') {
+					process.stdout.write('['.cyan + i + '] '.cyan + (results[i].title).bold + '\n');
+				}
 			}
 
 			readline.question('What song do you want to play? #', function (input) {
@@ -76,7 +78,7 @@ function checkApi(callback) {
 		process.stdout.write('\n');
 	}
 	else {
-		callback(JSON.parse(fs.readFileSync(getLocation('api'))).apikey)
+		callback(JSON.parse(fs.readFileSync(getLocation('api'))).apikey);
 	}
 }
 
@@ -86,9 +88,6 @@ function getLocation(type, data) {
 	}
 	else if (type == 'api') {
 		return '/home/' + process.env['USER'] + '/.yplayerrc';
-	}
-	else {
-		process.stdout.write('You didn\'t specify the ')
 	}
 }
 
