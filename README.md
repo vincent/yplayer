@@ -19,3 +19,7 @@ Usage : yplayer [options] <-s song>
 	[-h], [--help]			Display helpful information (this stuff)
 
 ```
+
+##Getting a Youtube Data API key
+
+[Here](https://developers.google.com/youtube/registering_an_application) you can see Google's guide to getting an API key, make sure that the key that you get is the Server API.
