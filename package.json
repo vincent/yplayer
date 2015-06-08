@@ -1,6 +1,6 @@
 {
   "name": "yplayer",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A CLI music player using youtube as a source",
   "main": "app.js",
   "dependencies": {
@@ -14,7 +14,7 @@
     "start": "node app.js"
   },
   "bin": {
-    "ysm": "app.js",
+    "ytm": "app.js",
     "yplayer": "app.js"
   },
   "repository": {

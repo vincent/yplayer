@@ -18,7 +18,7 @@ _.each(args, function (item) {
 });
 
 function help() {
-	process.stdout.write('yplayer v0.0.2, by: Bram \"#96AA48\" van der Veen\n\n');
+	process.stdout.write('yplayer v0.0.5, by: Bram \"#96AA48\" van der Veen\n\n');
 	process.stdout.write('Usage : yplayer [options] <-s song>\n');
 	var options = [
 		['-s <song>, --song <song>', 'Song to listen to'],
